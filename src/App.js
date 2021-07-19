@@ -4,10 +4,6 @@ import "./App.css";
 function App() {
   const [source, setSource] = React.useState("");
 
-  const sendData = () => {
-    console.log("aaaaa");
-  };
-
   const handleCapture = target => {
     if (target.files) {
       if (target.files.length !== 0) {
