@@ -1,9 +1,8 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [source, setSource] = useState(initialState);
+  const [source, setSource] = React.useState("");
 
   const sendData = () => {
     console.log("aaaaa");
@@ -21,7 +20,7 @@ function App() {
 
   return (
     <div className="container">
-      <img src={source} alt={"snap"} className={classes.img}></img>
+      <img src={source} alt={"snap"}></img>
       <div onClick={sendData} className="button">
         click mee!
       </div>
