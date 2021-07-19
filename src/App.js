@@ -20,10 +20,7 @@ function App() {
 
   return (
     <div className="container">
-      <img src={source} alt={"snap"}></img>
-      <div onClick={sendData} className="button">
-        click mee!
-      </div>
+      <img src={source} className="snap-img" alt={"snap"}></img>
       <input
         accept="image/*"
         id="icon-button-file"
