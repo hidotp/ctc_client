@@ -6,6 +6,7 @@ function App() {
   const [source, setSource] = React.useState("");
 
   const [hexString, setHexString] = React.useState("");
+  const [palette, setPalette] = React.useState([])
 
   const handleCapture = target => {
     if (target.files) {
@@ -15,6 +16,15 @@ function App() {
         setSource(newUrl);
       }
     }
+  };
+
+  const colorThing = hex => {
+    return (
+      <div className="color-cont">
+        <div>Dominant HexColor: {hex}</div>
+        <div className="color-sq" style={{ backgroundColor: hex }}></div>
+      </div>
+    );
   };
 
   const rgbToHex = ahh =>
@@ -32,9 +42,11 @@ function App() {
 
       if (img.complete) {
         setHexString(rgbToHex(colorThief.getColor(img)));
+        setPalette(colorThief.getPalette(img,5).map(x => rgbToHex(x)))
       } else {
         img.addEventListener("load", function() {
           setHexString(rgbToHex(colorThief.getColor(img)));
+          setPalette(colorThief.getPalette(img,5).map(x => rgbToHex(x)))
         });
       }
     }
@@ -50,10 +62,8 @@ function App() {
         capture="environment"
         onChange={e => handleCapture(e.target)}
       />
-      <div className="color-cont">
-        <div>Dominant HexColor: {hexString}</div>
-        <div className="color-sq" style={{backgroundColor: hexString}}></div>
-      </div>
+      {colorThing(hexString)}
+      {palette.map(x => colorThing(x))}
     </div>
   );
 }
