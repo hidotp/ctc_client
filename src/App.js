@@ -5,8 +5,8 @@ import ColorThief from "colorthief";
 function App() {
   const [source, setSource] = React.useState("");
 
-  const [hexString, setHexString] = React.useState("");
-  const [palette, setPalette] = React.useState([])
+  const [palette, setPalette] = React.useState([]);
+  const [colorView, setColorView] = React.useState(false);
 
   const handleCapture = target => {
     if (target.files) {
@@ -20,9 +20,8 @@ function App() {
 
   const colorThing = hex => {
     return (
-      <div className="color-cont">
-        <div>Dominant HexColor: {hex}</div>
-        <div className="color-sq" style={{ backgroundColor: hex }}></div>
+      <div className="color-cont" style={{ backgroundColor: hex }}>
+        <div>{hex.toUpperCase()}</div>
       </div>
     );
   };
@@ -41,12 +40,12 @@ function App() {
       const colorThief = new ColorThief();
 
       if (img.complete) {
-        setHexString(rgbToHex(colorThief.getColor(img)));
-        setPalette(colorThief.getPalette(img,5).map(x => rgbToHex(x)))
+        setPalette(colorThief.getPalette(img, 5).map(x => rgbToHex(x)));
+        setColorView(true);
       } else {
         img.addEventListener("load", function() {
-          setHexString(rgbToHex(colorThief.getColor(img)));
-          setPalette(colorThief.getPalette(img,5).map(x => rgbToHex(x)))
+          setPalette(colorThief.getPalette(img, 5).map(x => rgbToHex(x)));
+          setColorView(true);
         });
       }
     }
@@ -54,16 +53,32 @@ function App() {
 
   return (
     <div className="container">
-      <img src={source} className="snap-img" alt={"snap"}></img>
-      <input
-        accept="image/*"
-        id="icon-button-file"
-        type="file"
-        capture="environment"
-        onChange={e => handleCapture(e.target)}
-      />
-      {colorThing(hexString)}
-      {palette.map(x => colorThing(x))}
+      {!colorView ? (
+        <>
+          <img src={source} className="snap-img" alt={"snap"}></img>
+          <input
+            accept="image/*"
+            id="icon-button-file"
+            type="file"
+            capture="environment"
+            onChange={e => handleCapture(e.target)}
+          />
+        </>
+      ) : (
+        <>
+          <div className="color-header">colors</div>
+          {palette.map(x => colorThing(x))}
+          <div
+            className="color-redo"
+            onClick={_ => {
+              setColorView(false);
+              setSource("");
+            }}
+          >
+            redo
+          </div>
+        </>
+      )}
     </div>
   );
 }
