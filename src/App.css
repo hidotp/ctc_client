@@ -12,3 +12,13 @@
   max-width: 80%;
   max-height: 70%;
 }
+
+.color-sq {
+  width: 20px;
+  height: 20px;
+}
+
+.color-cont {
+  display: flex;
+  flex-direction: row;
+}

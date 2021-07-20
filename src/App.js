@@ -50,7 +50,10 @@ function App() {
         capture="environment"
         onChange={e => handleCapture(e.target)}
       />
-      <div>Dominant HexColor: {hexString}</div>
+      <div className="color-cont">
+        <div>Dominant HexColor: {hexString}</div>
+        <div className="color-sq" style={{backgroundColor: hexString}}></div>
+      </div>
     </div>
   );
 }
