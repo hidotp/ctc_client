@@ -12,7 +12,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://ctcserver.azurewebsites.net/query",
+  uri: "https://ctcserver.azurewebsites.net/query",
   cache: new InMemoryCache()
 });
 
