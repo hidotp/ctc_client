@@ -1,9 +1,18 @@
 import React from "react";
 import "./App.css";
 import ColorThief from "colorthief";
+import { gql, useMutation } from "@apollo/client";
+
+const ADD_HEX = gql`
+  mutation($input: String!) {
+    addHex(input: $input)
+  }
+`;
 
 function App() {
   const [source, setSource] = React.useState("");
+
+  const [addHex] = useMutation(ADD_HEX);
 
   const [palette, setPalette] = React.useState([]);
   const [colorView, setColorView] = React.useState(false);
@@ -18,10 +27,23 @@ function App() {
     }
   };
 
+  const resetAll = () => {
+    setColorView(false);
+    setSource("");
+  };
+
   const colorThing = hex => {
     return (
       <div className="color-cont" style={{ backgroundColor: hex }}>
-        <div>{hex.toUpperCase()}</div>
+        <div
+          onClick={_ => {
+            console.log(hex);
+            addHex({ variables: { input: hex } });
+            resetAll();
+          }}
+        >
+          {hex.toUpperCase()}
+        </div>
       </div>
     );
   };
@@ -68,13 +90,7 @@ function App() {
         <>
           <div className="color-header">colors</div>
           {palette.map(x => colorThing(x))}
-          <div
-            className="color-redo"
-            onClick={_ => {
-              setColorView(false);
-              setSource("");
-            }}
-          >
+          <div className="color-redo" onClick={resetAll}>
             redo
           </div>
         </>
